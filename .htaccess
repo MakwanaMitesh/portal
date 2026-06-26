@@ -1,0 +1,13 @@
+
+RewriteEngine on
+RewriteRule ^(.*)\.[\d]{10}\.(css|js)$ $1.$2 [L]
+
+# RewriteBase /
+# RewriteCond %{HTTP_USER_AGENT} ^HTTrack [OR]
+# RewriteRule ^.* – [F,L]
+
+RewriteEngine on
+RewriteCond $1 !^(index\.php|resources|robots\.txt)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php/$1 [L]
