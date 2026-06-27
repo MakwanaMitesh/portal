@@ -1,7 +1,7 @@
 <?php
     defined('BASEPATH') OR exit('No direct script access allowed');
     include(APPPATH.'views/common/header.php');
-   
+    $is_tester = strtolower(trim($get_login_user->department ?? '')) === 'software testing';
 ?>
 <div class="mb-4">
 <h4>Edit Task</h4>
@@ -14,7 +14,7 @@
                 <input hidden type="text" value="<?php echo $edit_task_list->task_id;?>" name="task_id">
             <div class="col-sm-12 col-md-6">
                 
-                <label class="mylabel" for="proj_list">Project</label><select name="proj_name" class="form-select" id="proj_list" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
+                <label class="mylabel" for="proj_list">Project</label><select name="proj_name" class="form-select" id="proj_list" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}' <?php echo $is_tester ? 'disabled' : ''; ?>>
               <option value="">Select Project</option>
                      <?php
                      //$project_id = '';
@@ -31,7 +31,7 @@
             <div class="col-sm-12 col-md-6">
                 
                 <label class="mylabel" for="service_list">Services</label>
-                <select name="service_name" class="form-select" id="service_list" style="height:48px">
+                <select name="service_name" class="form-select" id="service_list" style="height:48px" <?php echo $is_tester ? 'disabled' : ''; ?>>
                 <option value="">Select Service</option>
                      <?php
                         if(!empty($get_service_list)){
@@ -46,7 +46,7 @@
 
             <div class="col-sm-12 col-md-6">
                 <label class="mylabel" for="tester_id">Assign Tester</label>
-                <select name="tester_id" class="form-select" id="tester_id" style="height:48px">
+                <select name="tester_id" class="form-select" id="tester_id" style="height:48px" <?php echo $is_tester ? 'disabled' : ''; ?>>
                 <option value="">Select tester</option>
                 <?php if (!empty($get_testers)) {
                     foreach ($get_testers as $t) { ?>
@@ -56,7 +56,7 @@
             </div>
             <div class="col-sm-12 col-md-12">
                 <label class="mylabel" for="module_list" id="module_label">Module (Optional)</label>
-                <select name="module_id" class="form-select" id="module_list" style="height:48px">
+                <select name="module_id" class="form-select" id="module_list" style="height:48px" <?php echo $is_tester ? 'disabled' : ''; ?>>
                 <option value="">Select Module</option>
                      <?php
                         if(!empty($get_module_list)){
@@ -70,13 +70,13 @@
             
               <div class="col-sm-12 col-md-12">
                 <div class="form-floating">
-                  <textarea class="form-control" name=task_title id="task_title" placeholder="" style="height: 100px"><?php echo $edit_task_list->task_heading;?></textarea>
+                  <textarea class="form-control" name=task_title id="task_title" placeholder="" style="height: 100px" <?php echo $is_tester ? 'disabled' : ''; ?>><?php echo $edit_task_list->task_heading;?></textarea>
                   <label for="task_title">Task Title</label>
                 </div>
               </div>
               <div class="col-sm-12 col-md-12">
                 <div class="form-floating">
-                  <textarea class="form-control" name="task_desc" id="task_desc" style="height: 80px"><?php echo htmlspecialchars($edit_task_list->task_desc ?? ''); ?></textarea>
+                  <textarea class="form-control" name="task_desc" id="task_desc" style="height: 80px" <?php echo $is_tester ? 'disabled' : ''; ?>><?php echo htmlspecialchars($edit_task_list->task_desc ?? ''); ?></textarea>
                   <label for="task_desc">Description</label>
                 </div>
               </div>
@@ -92,7 +92,7 @@
               </div>
               <?php } ?>
               <div class="col-sm-6 col-md-3">
-                <div class="form-floating"><select class="form-select" name="task_status" id="task_status" >
+                <div class="form-floating"><select class="form-select" name="task_status" id="task_status" <?php echo $is_tester ? 'disabled' : ''; ?>>
                     
                     <option value="Pending" <?php if($edit_task_list->task_status == 'Pending'){echo 'selected';}?>>Pending</option>
                     <option value="In Progress" <?php if($edit_task_list->task_status == 'In Progress'){echo 'selected';}?>>In Progress </option>
@@ -103,7 +103,7 @@
                   </select><label for="task_status">Default Status</label></div>
               </div>
               <div class="col-sm-6 col-md-3">
-                <div class="form-floating"><select class="form-select show_recurring_div" name="task_type" id="task_type" >
+                <div class="form-floating"><select class="form-select show_recurring_div" name="task_type" id="task_type" <?php echo $is_tester ? 'disabled' : ''; ?>>
                     
                     <option value="Regular" <?php if($edit_task_list->task_type == 'Regular'){echo 'selected';}?>>Regular</option>
                     <option value="Recurring" <?php if($edit_task_list->task_type == 'Recurring'){echo 'selected';}?>>Recurring</option>
@@ -111,7 +111,7 @@
                   </select><label for="task_type">Task Type</label></div>
               </div>
               <div class="col-sm-6 col-md-3" id="recurring_div" style="display: <?php if($edit_task_list->task_type != 'Recurring'){echo 'none';}else{echo 'block';}?>;">
-                <div class="form-floating"><select class="form-select" name="recurring_task" id="recurring_task" >
+                <div class="form-floating"><select class="form-select" name="recurring_task" id="recurring_task" <?php echo $is_tester ? 'disabled' : ''; ?>>
                     
                     <option value="P1D" <?php if($edit_task_list->recurring_type == 'P1D'){echo 'selected';}?>>Daily</option>
                     <option value="P1W" <?php if($edit_task_list->recurring_type == 'P1W'){echo 'selected';}?>>Weekly</option>
@@ -123,31 +123,31 @@
               <div class="col-sm-6 col-md-3">
                 <div class="flatpickr-input-container">
                   <div class="form-floating">
-                      <input class="form-control datetimepicker" name="start_date" value="<?php echo date("d-m-Y", strtotime($edit_task_list->task_start_date));?>" id="start_date" type="text" placeholder="Start date" data-options='{"disableMobile":true,"dateFormat":"d-m-Y"}' />
+                      <input class="form-control datetimepicker" name="start_date" value="<?php echo date("d-m-Y", strtotime($edit_task_list->task_start_date));?>" id="start_date" type="text" placeholder="Start date" data-options='{"disableMobile":true,"dateFormat":"d-m-Y"}' <?php echo $is_tester ? 'disabled' : ''; ?> />
                       <label class="ps-6" for="start_date">Start date</label><span class="uil uil-calendar-alt flatpickr-icon text-body-tertiary"></span></div>
                 </div>
               </div>
               <div class="col-sm-6 col-md-3">
                 <div class="flatpickr-input-container">
                   <div class="form-floating">
-                      <input class="form-control datetimepicker" name="end_date"  id="end_date" value="<?php echo date("d-m-Y", strtotime($edit_task_list->task_end_date)) ;?>" type="text" placeholder="deadline" data-options='{"disableMobile":true,"dateFormat":"d-m-Y"}' />
+                      <input class="form-control datetimepicker" name="end_date"  id="end_date" value="<?php echo date("d-m-Y", strtotime($edit_task_list->task_end_date)) ;?>" type="text" placeholder="deadline" data-options='{"disableMobile":true,"dateFormat":"d-m-Y"}' <?php echo $is_tester ? 'disabled' : ''; ?> />
                       <label class="ps-6" for="end_date">Deadline</label><span class="uil uil-calendar-alt flatpickr-icon text-body-tertiary"></span></div>
                 </div>
               </div>
               <div class="col-sm-6 col-md-3">
-                <div class="form-floating"><input class="form-control" name="allotted_hrs" id="allotted_hrs" type="text" value="<?php echo $edit_task_list->allotted_hrs;?>" placeholder="Allotted Hrs" /><label for="allotted_hrs" >Allotted Hrs</label></div>
+                <div class="form-floating"><input class="form-control" name="allotted_hrs" id="allotted_hrs" type="text" value="<?php echo $edit_task_list->allotted_hrs;?>" placeholder="Allotted Hrs" <?php echo $is_tester ? 'disabled' : ''; ?> /><label for="allotted_hrs" >Allotted Hrs</label></div>
               </div>
                <div class="col-sm-6 col-md-3">
-                <div class="form-floating"><input class="form-control" name="allotted_min" id="allotted_min" type="text" value="<?php echo $edit_task_list->allotted_min;?>" placeholder="Allotted Minute" /><label for="allotted_min" >Allotted Minute</label></div>
+                <div class="form-floating"><input class="form-control" name="allotted_min" id="allotted_min" type="text" value="<?php echo $edit_task_list->allotted_min;?>" placeholder="Allotted Minute" <?php echo $is_tester ? 'disabled' : ''; ?> /><label for="allotted_min" >Allotted Minute</label></div>
               </div>
               <div class="col-sm-6 col-md-3">
-                <div class="form-floating"><input class="form-control" name="actual_hrs" type="number" min="0" value="<?php echo (int) ($edit_task_list->actual_hrs ?? 0);?>" placeholder="Dev work hrs" /><label>Developer work (hrs)</label></div>
+                <div class="form-floating"><input class="form-control" name="actual_hrs" type="number" min="0" value="<?php echo (int) ($edit_task_list->actual_hrs ?? 0);?>" placeholder="Dev work hrs" <?php echo $is_tester ? 'disabled' : ''; ?> /><label>Developer work (hrs)</label></div>
               </div>
               <div class="col-sm-6 col-md-3">
-                <div class="form-floating"><input class="form-control" name="actual_min" type="number" min="0" max="59" value="<?php echo (int) ($edit_task_list->actual_min ?? 0);?>" placeholder="Dev work min" /><label>Developer work (min)</label></div>
+                <div class="form-floating"><input class="form-control" name="actual_min" type="number" min="0" max="59" value="<?php echo (int) ($edit_task_list->actual_min ?? 0);?>" placeholder="Dev work min" <?php echo $is_tester ? 'disabled' : ''; ?> /><label>Developer work (min)</label></div>
               </div>
               <div class="col-sm-6 col-md-3">
-                 <div class="form-floating"><select class="form-select" name="task_priority" id="task_priority" >
+                 <div class="form-floating"><select class="form-select" name="task_priority" id="task_priority" <?php echo $is_tester ? 'disabled' : ''; ?>>
                     
                     <option value="1" <?php if($edit_task_list->priority == '1'){echo 'selected';}?>>Urgent</option>
                     <option value="2" <?php if($edit_task_list->priority == '2'){echo 'selected';}?>>High</option>
@@ -157,7 +157,7 @@
                   </select><label for="task_priority">Priority</label></div>
               </div>
               <div class="col-sm-12 col-md-12">
-               <select class="form-select" id="assignees" name="assignees[]" data-choices="data-choices" multiple="multiple" data-options='{"removeItemButton":true,"placeholder":true}' >
+               <select class="form-select" id="assignees" name="assignees[]" data-choices="data-choices" multiple="multiple" data-options='{"removeItemButton":true,"placeholder":true}' <?php echo $is_tester ? 'disabled' : ''; ?>>
                   <option value="">Assign Members...</option>
                   <?php
                         if(!empty($get_members_list)){
@@ -174,7 +174,9 @@
               <div class="col-12 gy-6">
                 <div class="row g-3 justify-content-end">
                   <div class="col-auto"><a type="button" data-bs-dismiss="modal" class="btn btn-subtle-danger px-5">Cancel</a></div>
+                  <?php if (!$is_tester) { ?>
                   <div class="col-auto"><button type="submit" class="btn btn-primary px-5 px-sm-15">Save Task</button></div>
+                  <?php } ?>
                 </div>
               </div>
             </form>

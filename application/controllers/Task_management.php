@@ -997,6 +997,15 @@ class Task_management extends CI_Controller {
 
 	public function save_task()
 	{
+        $user = $this->Common_model->get_login_user();
+        if ($user && strtolower(trim($user->department ?? '')) === 'software testing') {
+            echo json_encode([
+                'code' => 905,
+                'msg' => '<h4 class="alert alert-outline-danger">Testers are not allowed to edit task details.</h4>'
+            ]);
+            return;
+        }
+
 	     $current_datetime = new DateTime();
         $current_time = $current_datetime->format('H:i'); // Get the current time in 24-hour format
 
