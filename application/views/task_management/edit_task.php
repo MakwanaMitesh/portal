@@ -7,41 +7,41 @@
 <h4>Edit Task</h4>
 <div class="mx-n4 px-4 mx-lg-n6 px-lg-3 bg-body-emphasis pt-6 border-top border-bottom">
 
-  
+
         <div class="row">
           <div class="col-xl-12">
            <form class="row g-3 mb-6" id="task_save_form" method="post" >
                 <input hidden type="text" value="<?php echo $edit_task_list->task_id;?>" name="task_id">
             <div class="col-sm-12 col-md-6">
-                
+
                 <label class="mylabel" for="proj_list">Project</label><select name="proj_name" class="form-select" id="proj_list" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}' <?php echo $is_tester ? 'disabled' : ''; ?>>
               <option value="">Select Project</option>
                      <?php
                      //$project_id = '';
                         if(!empty($get_project_list)){
                         foreach ($get_project_list as $proj_list)
-                        { 
+                        {
                         ?>
                     <option value="<?php echo $proj_list->project_id;?>" <?php if($edit_task_list->project_id == $proj_list->project_id){echo 'selected';}?>><?php echo $proj_list->project_name;?></option>
                     <?php }} ?>
             </select>
-            
+
             </div>
-            
+
             <div class="col-sm-12 col-md-6">
-                
+
                 <label class="mylabel" for="service_list">Services</label>
                 <select name="service_name" class="form-select" id="service_list" style="height:48px" <?php echo $is_tester ? 'disabled' : ''; ?>>
                 <option value="">Select Service</option>
                      <?php
                         if(!empty($get_service_list)){
                         foreach ($get_service_list as $serv_list)
-                        { 
+                        {
                         ?>
                     <option value="<?php echo $serv_list->service_id;?>" <?php if($edit_task_list->service_id == $serv_list->service_id){echo 'selected';}?>><?php echo $serv_list->service_name;?></option>
                     <?php }} ?>
             </select>
-            
+
             </div>
 
             <div class="col-sm-12 col-md-6">
@@ -61,13 +61,13 @@
                      <?php
                         if(!empty($get_module_list)){
                         foreach ($get_module_list as $mod_list)
-                        { 
+                        {
                         ?>
                     <option value="<?php echo $mod_list->module_id;?>" <?php if($edit_task_list->module_id == $mod_list->module_id){echo 'selected';}?>><?php echo $mod_list->module_name;?></option>
                     <?php }} ?>
             </select>
             </div>
-            
+
               <div class="col-sm-12 col-md-12">
                 <div class="form-floating">
                   <textarea class="form-control" name=task_title id="task_title" placeholder="" style="height: 100px" <?php echo $is_tester ? 'disabled' : ''; ?>><?php echo $edit_task_list->task_heading;?></textarea>
@@ -92,32 +92,32 @@
               </div>
               <?php } ?>
               <div class="col-sm-6 col-md-3">
-                <div class="form-floating"><select class="form-select" name="task_status" id="task_status" <?php echo $is_tester ? 'disabled' : ''; ?>>
-                    
+                <div class="form-floating"><select class="form-select" name="task_status" id="task_status" >
+
                     <option value="Pending" <?php if($edit_task_list->task_status == 'Pending'){echo 'selected';}?>>Pending</option>
                     <option value="In Progress" <?php if($edit_task_list->task_status == 'In Progress'){echo 'selected';}?>>In Progress </option>
                     <option value="Ready for Testing" <?php if($edit_task_list->task_status == 'Ready for Testing'){echo 'selected';}?>>Ready for Testing </option>
                     <option value="Need Discussion" <?php if($edit_task_list->task_status == 'Need Discussion'){echo 'selected';}?>>Need Discussion</option>
                     <option value="Completed" <?php if($edit_task_list->task_status == 'Completed'){echo 'selected';}?>>Completed </option>
-                    
+
                   </select><label for="task_status">Default Status</label></div>
               </div>
               <div class="col-sm-6 col-md-3">
                 <div class="form-floating"><select class="form-select show_recurring_div" name="task_type" id="task_type" <?php echo $is_tester ? 'disabled' : ''; ?>>
-                    
+
                     <option value="Regular" <?php if($edit_task_list->task_type == 'Regular'){echo 'selected';}?>>Regular</option>
                     <option value="Recurring" <?php if($edit_task_list->task_type == 'Recurring'){echo 'selected';}?>>Recurring</option>
-                    
+
                   </select><label for="task_type">Task Type</label></div>
               </div>
               <div class="col-sm-6 col-md-3" id="recurring_div" style="display: <?php if($edit_task_list->task_type != 'Recurring'){echo 'none';}else{echo 'block';}?>;">
                 <div class="form-floating"><select class="form-select" name="recurring_task" id="recurring_task" <?php echo $is_tester ? 'disabled' : ''; ?>>
-                    
+
                     <option value="P1D" <?php if($edit_task_list->recurring_type == 'P1D'){echo 'selected';}?>>Daily</option>
                     <option value="P1W" <?php if($edit_task_list->recurring_type == 'P1W'){echo 'selected';}?>>Weekly</option>
                     <option value="P1M" <?php if($edit_task_list->recurring_type == 'P1M'){echo 'selected';}?>>Monthly</option>
                     <option value="P1Y" <?php if($edit_task_list->recurring_type == 'P1Y'){echo 'selected';}?>>Yearly</option>
-                    
+
                   </select><label for="recurring_task">Recurring Type</label></div>
               </div>
               <div class="col-sm-6 col-md-3">
@@ -148,12 +148,12 @@
               </div>
               <div class="col-sm-6 col-md-3">
                  <div class="form-floating"><select class="form-select" name="task_priority" id="task_priority" <?php echo $is_tester ? 'disabled' : ''; ?>>
-                    
+
                     <option value="1" <?php if($edit_task_list->priority == '1'){echo 'selected';}?>>Urgent</option>
                     <option value="2" <?php if($edit_task_list->priority == '2'){echo 'selected';}?>>High</option>
                     <option value="3" <?php if($edit_task_list->priority == '3'){echo 'selected';}?>>Normal</option>
                     <option value="4" <?php if($edit_task_list->priority == '4'){echo 'selected';}?>>Low</option>
-                    
+
                   </select><label for="task_priority">Priority</label></div>
               </div>
               <div class="col-sm-12 col-md-12">
@@ -162,15 +162,15 @@
                   <?php
                         if(!empty($get_members_list)){
                         foreach ($get_members_list as $emp_list)
-                        { 
+                        {
                         ?>
                   <option value="<?php echo $emp_list->employee_no;?>" <?php if($edit_task_list->assignee == $emp_list->employee_no){echo 'selected';} ?>><?php echo $emp_list->name;?></option>
                   <?php }} ?>
-                 
+
                 </select>
               </div>
-              
-              
+
+
               <div class="col-12 gy-6">
                 <div class="row g-3 justify-content-end">
                   <div class="col-auto"><a type="button" data-bs-dismiss="modal" class="btn btn-subtle-danger px-5">Cancel</a></div>
@@ -230,12 +230,12 @@
             </div>
             <?php } ?>
             <div id="form_msg_task"></div>
-            
-            
-            
+
+
+
           </div>
         </div>
 </div>
-</div>        
+</div>
 
 <?php include(APPPATH.'views/common/footer.php');?>
